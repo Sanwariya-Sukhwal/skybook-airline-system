@@ -1,0 +1,18 @@
+# Frontend
+skybook-airline-frontend/node_modules/
+skybook-airline-frontend/dist/
+
+# Backend
+skybook-airline-backend/target/
+
+# IDE
+skybook-airline-backend/.idea/
+.idea/
+.vscode/
+
+# Logs
+*.log
+
+# Environment
+.env
+.env.local
