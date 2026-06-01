@@ -1,3 +1,9 @@
+## 🌐 Live Demo
+
+- Frontend: https://skybook02.vercel.app/
+- Backend API: https://skybook-airline.onrender.com
+
+
 # ✈️ SkyBook Airline Reservation System
 
 A full-stack Airline Reservation System built using Spring Boot, React.js, PostgreSQL, JWT Authentication, and Role-Based Authorization.
@@ -80,10 +86,6 @@ skybook-airline-system
 ## 📸 Screenshots
 
 ### Home Page
-
-## 📸 Screenshots
-
-### Home Page
 <img src="screenshots/home.png" width="1000">
 
 ### Flights Page
@@ -101,7 +103,7 @@ skybook-airline-system
 ### Clone Repository
 
 ```bash
-git clone https://github.com/your-username/skybook-airline-system.git
+git clone https://github.com/Sanwariya-Sukhwal/skybook-airline-system.git
 cd skybook-airline-system
 ```
 
@@ -302,7 +304,7 @@ My Bookings
 * Seat Availability Tracking
 * Daily Recurring Flights
 * Payment Gateway Integration
-* Cloud Deployment
+
 
 ---
 
@@ -312,11 +314,9 @@ My Bookings
 
 Java Full Stack Developer
 
-### Technologies Used
+GitHub:
+https://github.com/Sanwariya-Sukhwal
 
-* Spring Boot
-* React.js
-* PostgreSQL
-* JWT Authentication
-* REST APIs
-* Tailwind CSS
+Live Demo:
+https://skybook02.vercel.app/
+
