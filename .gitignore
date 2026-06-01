@@ -5,7 +5,7 @@ skybook-airline-frontend/dist/
 # Backend
 skybook-airline-backend/target/
 
-# IDE
+# IDE Files
 skybook-airline-backend/.idea/
 .idea/
 .vscode/
@@ -13,6 +13,10 @@ skybook-airline-backend/.idea/
 # Logs
 *.log
 
-# Environment
+# Environment Files
 .env
 .env.local
+
+# OS Files
+.DS_Store
+Thumbs.db
