@@ -10,6 +10,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @RequiredArgsConstructor
@@ -20,6 +25,35 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        configuration.setAllowedOrigins(List.of(
+                "http://localhost:5173",
+                "https://skybook02.vercel.app"
+        ));
+
+        configuration.setAllowedMethods(List.of(
+                "GET",
+                "POST",
+                "PUT",
+                "DELETE",
+                "OPTIONS"
+        ));
+
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source =
+                new UrlBasedCorsConfigurationSource();
+
+        source.registerCorsConfiguration("/**", configuration);
+
+        return source;
     }
 
     @Bean
@@ -36,6 +70,10 @@ public class SecurityConfig {
                 )
 
                 .authorizeHttpRequests(auth -> auth
+
+                        // Allow Preflight Requests
+                        .requestMatchers(HttpMethod.OPTIONS, "/**")
+                        .permitAll()
 
                         // Public APIs
                         .requestMatchers("/auth/**")
@@ -63,8 +101,25 @@ public class SecurityConfig {
                         )
                         .hasAuthority("ADMIN")
 
+                        // View Flights
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/flights/**"
+                        )
+                        .permitAll()
+
                         // =========================
-                        // BOOKING MANAGEMENT (ADMIN)
+                        // PASSENGER APIs
+                        // =========================
+
+                        .requestMatchers("/passengers/**")
+                        .hasAnyAuthority(
+                                "USER",
+                                "ADMIN"
+                        )
+
+                        // =========================
+                        // ADMIN BOOKING APIs
                         // =========================
 
                         .requestMatchers(
@@ -80,31 +135,8 @@ public class SecurityConfig {
                         .hasAuthority("ADMIN")
 
                         // =========================
-                        // PAYMENT MANAGEMENT (ADMIN)
+                        // USER BOOKING APIs
                         // =========================
-
-                        .requestMatchers(
-                                "/payments/status/**"
-                        )
-                        .hasAuthority("ADMIN")
-
-                        .requestMatchers(
-                                HttpMethod.GET,
-                                "/payments/*"
-                        )
-                        .hasAuthority("ADMIN")
-
-                        // =========================
-                        // USER BOOKINGS
-                        // =========================
-
-                        .requestMatchers(
-                                "/bookings/user/**"
-                        )
-                        .hasAnyAuthority(
-                                "USER",
-                                "ADMIN"
-                        )
 
                         .requestMatchers(
                                 HttpMethod.POST,
@@ -124,9 +156,22 @@ public class SecurityConfig {
                                 "ADMIN"
                         )
 
+                        .requestMatchers(
+                                "/bookings/flight/**"
+                        )
+                        .hasAnyAuthority(
+                                "USER",
+                                "ADMIN"
+                        )
+
                         // =========================
-                        // USER PAYMENTS
+                        // PAYMENT APIs
                         // =========================
+
+                        .requestMatchers(
+                                "/payments/status/**"
+                        )
+                        .hasAuthority("ADMIN")
 
                         .requestMatchers(
                                 HttpMethod.POST,
@@ -145,7 +190,6 @@ public class SecurityConfig {
                                 "ADMIN"
                         )
 
-                        // All Remaining APIs
                         .anyRequest()
                         .authenticated()
                 )
