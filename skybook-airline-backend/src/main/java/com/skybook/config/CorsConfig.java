@@ -14,7 +14,7 @@ public class CorsConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.addAllowedOrigin("http://localhost:5173");
-        config.addAllowedOrigin("https://skybook-airline-system.vercel.app");
+        config.addAllowedOrigin("https://skybook02.vercel.app");
 
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
