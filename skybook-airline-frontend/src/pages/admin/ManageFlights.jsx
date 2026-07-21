@@ -53,10 +53,11 @@ export default function ManageFlights() {
   }
 
   const handleEditChange = (e) => {
+    const { name, type, value, checked } = e.target
 
     setEditForm({
       ...editForm,
-      [e.target.name]: e.target.value
+      [name]: type === 'checkbox' ? checked : value
     })
   }
 
@@ -74,7 +75,8 @@ export default function ManageFlights() {
         departureTime: editForm.departureTime,
         arrivalTime: editForm.arrivalTime,
         price: Number(editForm.price),
-        seats: Number(editForm.seats)
+        seats: Number(editForm.seats),
+        everyday: Boolean(editForm.everyday)
 
       })
 
@@ -148,6 +150,34 @@ export default function ManageFlights() {
 
                   ))}
 
+                  <div className="flex items-center gap-3">
+                    <input
+                      id="edit-everyday"
+                      name="everyday"
+                      type="checkbox"
+                      checked={Boolean(editForm.everyday)}
+                      onChange={handleEditChange}
+                      className="h-5 w-5 rounded"
+                    />
+                    <label htmlFor="edit-everyday" className="text-white/80 text-sm">
+                      Operates every day
+                    </label>
+                  </div>
+
+                </div>
+
+                <div className="flex items-center gap-3 mt-4">
+                  <input
+                    id="edit-everyday"
+                    name="everyday"
+                    type="checkbox"
+                    checked={Boolean(editForm.everyday)}
+                    onChange={handleEditChange}
+                    className="h-5 w-5 rounded"
+                  />
+                  <label htmlFor="edit-everyday" className="text-white/80 text-sm">
+                    Operates Every Day
+                  </label>
                 </div>
 
                 <div className="flex gap-3 mt-4">

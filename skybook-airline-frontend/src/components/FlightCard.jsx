@@ -78,6 +78,10 @@ export default function FlightCard({ flight }) {
             {flight.date}
           </p>
 
+          <p className="text-white/40 text-xs mt-1">
+            {flight.everyday ? 'Every day flight' : 'Alternate-day flight'}
+          </p>
+
         </div>
 
         <div className="text-center">
