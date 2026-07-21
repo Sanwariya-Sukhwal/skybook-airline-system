@@ -23,7 +23,7 @@ export default function AppRoutes() {
     <Routes>
 
       {/* Public */}
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/flights" element={<Flights />} />
