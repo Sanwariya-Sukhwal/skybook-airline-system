@@ -14,8 +14,8 @@ const empty = {
   arrival: '',
   duration: '',
   price: '',
-  seats: ''
-  
+  seats: '',
+  everyday: false
 }
 
 export default function AddFlight() {
@@ -24,9 +24,10 @@ export default function AddFlight() {
   const [success, setSuccess] = useState(false)
 
   const handleChange = (e) => {
+    const { name, type, value, checked } = e.target
     setForm({
       ...form,
-      [e.target.name]: e.target.value
+      [name]: type === 'checkbox' ? checked : value
     })
   }
 
@@ -45,7 +46,8 @@ export default function AddFlight() {
         departureTime: form.departure,
         arrivalTime: form.arrival,
         price: Number(form.price),
-        seats: Number(form.seats)
+        seats: Number(form.seats),
+        everyday: Boolean(form.everyday)
       })
       setSuccess(true)
 
@@ -290,6 +292,20 @@ export default function AddFlight() {
                 />
               </div>
 
+            </div>
+
+            <div className="flex items-center gap-3 mb-2">
+              <input
+                id="everyday"
+                name="everyday"
+                type="checkbox"
+                checked={form.everyday}
+                onChange={handleChange}
+                className="h-5 w-5 rounded"
+              />
+              <label htmlFor="everyday" className="text-white/80 text-sm">
+                Operates Every Day
+              </label>
             </div>
 
             <button

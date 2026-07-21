@@ -36,4 +36,7 @@ public class Flight {
 
     @Min(1)
     private int seats;
+    
+    // If true, this flight operates every day (recurring daily)
+    private boolean everyday = false;
 }

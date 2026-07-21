@@ -74,6 +74,8 @@ public class FlightService {
 
         oldFlight.setPrice(flight.getPrice());
         oldFlight.setSeats(flight.getSeats());
+        // copy everyday flag
+        oldFlight.setEveryday(flight.isEveryday());
 
         return repository.save(oldFlight);
     }
