@@ -4,93 +4,85 @@ import FlightCard from '../components/FlightCard.jsx'
 import api from '../services/api'
 
 export default function Flights() {
-
   const [from, setFrom] = useState('')
   const [to, setTo] = useState('')
   const [date, setDate] = useState('')
 
   const [results, setResults] = useState([])
   const [searched, setSearched] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const [page, setPage] = useState(0)
   const [totalPages, setTotalPages] = useState(0)
 
   const fetchFlights = async () => {
+    setLoading(true)
 
     try {
-
       const response = await api.get(
         `/flights/page?page=${page}&size=5&sortBy=price`
       )
 
       setResults(response.data.content)
       setTotalPages(response.data.totalPages)
-
     } catch (error) {
-
       console.error(error)
-
+      setResults([])
+    } finally {
+      setLoading(false)
     }
   }
 
   useEffect(() => {
-
-    fetchFlights()
-
-  }, [page])
+    if (!searched) {
+      fetchFlights()
+    }
+  }, [page, searched])
 
   const handleSearch = async (e) => {
-
     e.preventDefault()
 
-    try {
+    setLoading(true)
 
+    try {
       const response = await api.get(
         `/flights/search?from=${from}&to=${to}`
       )
 
       setResults(response.data)
       setSearched(true)
-
+      setTotalPages(0)
     } catch (error) {
-
       console.error(error)
-
+      setResults([])
+    } finally {
+      setLoading(false)
     }
   }
 
-  const handleClear = async () => {
-
+  const handleClear = () => {
     setFrom('')
     setTo('')
     setDate('')
-
     setSearched(false)
     setPage(0)
-
-    fetchFlights()
   }
 
   return (
     <div className="min-h-screen bg-sky-950">
-
       <Navbar />
 
       <div className="pt-24 pb-16 px-4 max-w-5xl mx-auto">
-
         <h1 className="font-heading text-3xl text-white mb-8 text-center">
           Search Flights
         </h1>
 
         <div className="card mb-8">
-
           <form
             onSubmit={handleSearch}
             className="flex flex-col md:flex-row gap-4"
           >
-
             <div className="flex-1">
-
               <label className="text-white/50 text-xs mb-1 block">
                 From
               </label>
@@ -102,11 +94,9 @@ export default function Flights() {
                 value={from}
                 onChange={(e) => setFrom(e.target.value)}
               />
-
             </div>
 
             <div className="flex-1">
-
               <label className="text-white/50 text-xs mb-1 block">
                 To
               </label>
@@ -118,11 +108,9 @@ export default function Flights() {
                 value={to}
                 onChange={(e) => setTo(e.target.value)}
               />
-
             </div>
 
             <div className="flex-1">
-
               <label className="text-white/50 text-xs mb-1 block">
                 Date
               </label>
@@ -133,16 +121,15 @@ export default function Flights() {
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
               />
-
             </div>
 
             <div className="flex items-end gap-2">
-
               <button
                 type="submit"
                 className="btn-primary"
+                disabled={loading}
               >
-                Search
+                {loading ? 'Searching...' : 'Search'}
               </button>
 
               {searched && (
@@ -150,30 +137,35 @@ export default function Flights() {
                   type="button"
                   onClick={handleClear}
                   className="btn-outline"
+                  disabled={loading}
                 >
                   Clear
                 </button>
               )}
-
             </div>
-
           </form>
-
         </div>
 
         <div className="mb-4 flex items-center justify-between">
-
           <p className="text-white/40 text-sm">
-            {results.length} flight
-            {results.length !== 1 ? 's' : ''} found
+            {loading
+              ? 'Loading flights...'
+              : `${results.length} flight${results.length !== 1 ? 's' : ''} found`}
           </p>
-
         </div>
 
-        {results.length === 0 ? (
-
+        {loading ? (
           <div className="card text-center py-16">
+            <div className="flex justify-center mb-4">
+              <div className="w-8 h-8 border-2 border-white/20 border-t-gold-400 rounded-full animate-spin"></div>
+            </div>
 
+            <p className="text-white/50">
+              Loading flights...
+            </p>
+          </div>
+        ) : results.length === 0 ? (
+          <div className="card text-center py-16">
             <p className="text-5xl mb-4">
               🔍
             </p>
@@ -188,32 +180,23 @@ export default function Flights() {
             >
               Show All Flights
             </button>
-
           </div>
-
         ) : (
-
           <>
             <div className="grid md:grid-cols-2 gap-4">
-
               {results.map((flight) => (
-
                 <FlightCard
                   key={flight.id}
                   flight={flight}
                 />
-
               ))}
-
             </div>
 
-            {!searched && (
-
+            {!searched && totalPages > 1 && (
               <div className="flex justify-center items-center gap-4 mt-8">
-
                 <button
                   onClick={() => setPage(page - 1)}
-                  disabled={page === 0}
+                  disabled={page === 0 || loading}
                   className="btn-outline"
                 >
                   Previous
@@ -225,22 +208,16 @@ export default function Flights() {
 
                 <button
                   onClick={() => setPage(page + 1)}
-                  disabled={page + 1 >= totalPages}
+                  disabled={page + 1 >= totalPages || loading}
                   className="btn-primary"
                 >
                   Next
                 </button>
-
               </div>
-
             )}
-
           </>
-
         )}
-
       </div>
-
     </div>
   )
 }
