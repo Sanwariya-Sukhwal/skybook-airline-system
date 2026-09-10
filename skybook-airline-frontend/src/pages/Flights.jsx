@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import Navbar from '../components/Navbar.jsx'
 import FlightCard from '../components/FlightCard.jsx'
 import api from '../services/api'
 
 export default function Flights() {
-  const [from, setFrom] = useState('')
-  const [to, setTo] = useState('')
+  const [searchParams] = useSearchParams()
+
+  const routeFrom = searchParams.get('from') || ''
+  const routeTo = searchParams.get('to') || ''
+
+  const [from, setFrom] = useState(routeFrom)
+  const [to, setTo] = useState(routeTo)
   const [date, setDate] = useState('')
 
   const [results, setResults] = useState([])
@@ -33,20 +39,12 @@ export default function Flights() {
     }
   }
 
-  useEffect(() => {
-    if (!searched) {
-      fetchFlights()
-    }
-  }, [page, searched])
-
-  const handleSearch = async (e) => {
-    e.preventDefault()
-
+  const searchFlights = async (fromValue, toValue) => {
     setLoading(true)
 
     try {
       const response = await api.get(
-        `/flights/search?from=${from}&to=${to}`
+        `/flights/search?from=${encodeURIComponent(fromValue)}&to=${encodeURIComponent(toValue)}`
       )
 
       setResults(response.data)
@@ -58,6 +56,34 @@ export default function Flights() {
     } finally {
       setLoading(false)
     }
+  }
+
+  useEffect(() => {
+    if (routeFrom || routeTo) {
+      setFrom(routeFrom)
+      setTo(routeTo)
+      searchFlights(routeFrom, routeTo)
+    } else {
+      fetchFlights()
+    }
+  }, [routeFrom, routeTo])
+
+  useEffect(() => {
+    if (!searched && !routeFrom && !routeTo) {
+      fetchFlights()
+    }
+  }, [page])
+
+  const handleSearch = async (e) => {
+    e.preventDefault()
+
+    if (!from.trim() && !to.trim()) {
+      setSearched(false)
+      setPage(0)
+      return
+    }
+
+    await searchFlights(from.trim(), to.trim())
   }
 
   const handleClear = () => {
