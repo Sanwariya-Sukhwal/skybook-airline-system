@@ -28,8 +28,8 @@ export default function Home() {
 
   const popularRoutes = [
     ['Mumbai', 'Delhi'],
-    ['Delhi', 'Bangaluru'],
-    ['Bangaluru', 'Goa'],
+    ['Delhi', 'Bengaluru'],
+    ['Bengaluru', 'Goa'],
     ['Mumbai', 'Kolkata'],
   ]
 
