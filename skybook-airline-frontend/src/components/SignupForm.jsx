@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import api from '../services/api'
 
 export default function SignupForm() {
@@ -31,7 +31,7 @@ export default function SignupForm() {
         role: 'USER'
       })
 
-      navigate('/login')
+      navigate('/login', { replace: true })
 
     } catch (error) {
 
@@ -116,12 +116,13 @@ export default function SignupForm() {
 
       <p className="text-white/40 text-sm text-center mt-4">
         Already have an account?{' '}
-        <Link
-          to="/login"
+        <button
+          type="button"
+          onClick={() => navigate('/login', { replace: true })}
           className="text-gold-400 hover:underline"
         >
           Sign In
-        </Link>
+        </button>
       </p>
 
     </div>

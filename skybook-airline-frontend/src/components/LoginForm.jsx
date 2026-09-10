@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate, Link, useLocation } from 'react-router-dom'
+import { useNavigate,  useLocation } from 'react-router-dom'
 import api from '../services/api'
 import { useAuth } from '../context/AuthContext.jsx'
 
@@ -103,12 +103,13 @@ export default function LoginForm() {
 
       <p className="text-white/40 text-sm text-center mt-4">
         Don't have an account?{' '}
-        <Link
-          to="/signup"
-          className="text-gold-400 hover:underline"
-        >
-          Sign Up
-        </Link>
+      <button
+        type="button"
+        onClick={() => navigate('/signup', { replace: true })}
+        className="text-gold-400 hover:underline"
+      >
+        Sign Up
+      </button>
       </p>
 
     </div>
