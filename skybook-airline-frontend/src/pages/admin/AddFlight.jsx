@@ -70,15 +70,17 @@ export default function AddFlight() {
 
       <AdminSidebar />
 
-      <main className="flex-1 p-8">
+      <main className="flex-1 p-8 flex flex-col items-center">
 
-        <h1 className="font-heading text-3xl text-white mb-2">
-          Add New Flight
-        </h1>
+        <div className="w-full max-w-5xl mx-auto">
+          <h1 className="font-heading text-4xl text-white mb-2">
+            Add New Flight
+          </h1>
 
-        <p className="text-white/40 text-sm mb-8">
-          Fill in the details to add a flight
-        </p>
+          <p className="text-white/40 text-base mb-8 max-w-3xl">
+            Fill in the details to add a flight. Use the checkbox to mark a route as operating every day.
+          </p>
+        </div>
 
         {success && (
           <div className="bg-green-500/10 border border-green-500/30 text-green-400 px-4 py-3 rounded-lg mb-6 text-sm">
@@ -86,11 +88,11 @@ export default function AddFlight() {
           </div>
         )}
 
-        <div className="card max-w-2xl">
+        <div className="card w-full max-w-5xl mx-auto">
 
           <form
             onSubmit={handleSubmit}
-            className="space-y-4"
+            className="space-y-8"
           >
 
             <div className="grid md:grid-cols-2 gap-4">

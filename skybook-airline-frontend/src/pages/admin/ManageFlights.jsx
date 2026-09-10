@@ -95,15 +95,17 @@ export default function ManageFlights() {
 
       <AdminSidebar />
 
-      <main className="flex-1 p-8">
+      <main className="flex-1 p-8 flex justify-center">
 
-        <h1 className="font-heading text-3xl text-white mb-2">
-          Manage Flights
-        </h1>
+        <div className="w-full max-w-6xl">
+          <h1 className="font-heading text-3xl text-white mb-2">
+            Manage Flights
+          </h1>
 
-        <p className="text-white/40 text-sm mb-8">
-          {flights.length} flights in system
-        </p>
+          <p className="text-white/40 text-sm mb-8">
+            {flights.length} flights in system
+          </p>
+        </div>
 
         <div className="space-y-4">
 
@@ -164,20 +166,6 @@ export default function ManageFlights() {
                     </label>
                   </div>
 
-                </div>
-
-                <div className="flex items-center gap-3 mt-4">
-                  <input
-                    id="edit-everyday"
-                    name="everyday"
-                    type="checkbox"
-                    checked={Boolean(editForm.everyday)}
-                    onChange={handleEditChange}
-                    className="h-5 w-5 rounded"
-                  />
-                  <label htmlFor="edit-everyday" className="text-white/80 text-sm">
-                    Operates Every Day
-                  </label>
                 </div>
 
                 <div className="flex gap-3 mt-4">

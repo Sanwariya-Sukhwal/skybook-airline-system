@@ -10,13 +10,14 @@ export default function FlightCard({ flight }) {
   const navigate = useNavigate()
 
   const handleBook = () => {
+    setSelectedFlight(flight)
 
     if (!user) {
-      navigate('/login')
+      navigate('/login', {
+        state: { from: '/booking' }
+      })
       return
     }
-
-    setSelectedFlight(flight)
 
     navigate('/booking')
   }

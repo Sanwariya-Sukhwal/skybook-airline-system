@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate, Link, useLocation } from 'react-router-dom'
 import api from '../services/api'
 import { useAuth } from '../context/AuthContext.jsx'
 
@@ -11,14 +11,13 @@ export default function LoginForm() {
 
   const { saveUser } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
 
   const handleSubmit = async (e) => {
-
     e.preventDefault()
     setError('')
 
     try {
-
       const response = await api.post('/auth/login', {
         email,
         password
@@ -30,16 +29,16 @@ export default function LoginForm() {
 
       saveUser(data.user)
 
-      navigate(
-        data.user.role === 'ADMIN'
-          ? '/admin'
-          : '/'
-      )
+      const from = location.state?.from
+
+      if (data.user.role === 'ADMIN') {
+        navigate('/admin')
+      } else {
+        navigate(from || '/')
+      }
 
     } catch (error) {
-
       console.error(error)
-
       setError('Invalid Email or Password')
     }
   }

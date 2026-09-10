@@ -22,19 +22,20 @@ export default function AppRoutes() {
   return (
     <Routes>
 
-      {/* Public */}
-      <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+      {/* Public Routes */}
+      <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/flights" element={<Flights />} />
 
-      {/* User Protected */}
+
+      {/* User Protected Routes */}
       <Route path="/booking" element={<ProtectedRoute><Booking /></ProtectedRoute>} />
       <Route path="/payment" element={<ProtectedRoute><Payment /></ProtectedRoute>} />
       <Route path="/success" element={<ProtectedRoute><Success /></ProtectedRoute>} />
       <Route path="/my-bookings" element={<ProtectedRoute><MyBookings /></ProtectedRoute>} />
 
-      {/* Admin Protected */}
+      {/* Admin Protected Routes */}
       <Route path="/admin" element={<ProtectedRoute role="ADMIN"><AdminDashboard /></ProtectedRoute>} />
       <Route path="/admin/add-flight" element={<ProtectedRoute role="ADMIN"><AddFlight /></ProtectedRoute>} />
       <Route path="/admin/manage-flights" element={<ProtectedRoute role="ADMIN"><ManageFlights /></ProtectedRoute>} />
